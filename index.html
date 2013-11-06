@@ -1,0 +1,376 @@
+<!doctype html>
+<html ng-app>
+  <head>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="serverCosts.css" rel="stylesheet">
+  
+    <script language='javascript'>
+      var serverChoices = [];
+    </script>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    
+    <script src="serverCosts.js"></script>
+    <script src="ec2.js"></script>
+    <script src="digitalOcean.js"></script>
+    <script src="linode.js"></script>
+    <script src="rackspace.js"></script>
+    <script src="google.js"></script>
+    <script src="other.js"></script>
+    
+    <title>Cloud Cost Calculator</title>
+  </head>
+  <body>
+    <div ng-controller="ServerCostsController">
+      <div class="row">
+        <div class="col-sm-6">
+          <h1><b>Cloud Cost Calculator</b></h1>
+        </div>
+        <div class="col-sm-6 text-right">
+          <br>
+          <h4>
+          {{choiceCount}} server combinations -- add more <a href='https://github.com/scalyr/cloud-costs'>on Github</a>
+          </h4>
+        </div>
+      </div>
+      <p>
+        Welcome! Use this page to compare server costs. Unlike most cheat sheets, here you can compare
+        across providers, evaluate on-demand vs. reserved / leased options, and sort by cost-effectiveness
+        metrics such as "$ per GB of RAM". Feedback: <a href='mailto:contact@scalyr.com'>contact@scalyr.com</a>.
+      </p>
+      <p>
+        <b>First time here?</b> You should probably check out the
+        <a href="http://blog.scalyr.com/2013/11/05/cloud-cost-calculator/">blog post</a>, skim the
+        <a href="#" id="quickrefButton">quick reference</a>, or explore some
+        <a href="#" id="presetsButton">presets</a>.
+      </p>
+      <p>
+        (A little weekend project from the folks at Scalyr. During the week, we work on server monitoring and
+        log analysis. We've built a highly efficient universal storage engine for server logs and metrics,
+        enabling you to manage all your server data in one place with amazing performance...
+        <a href="/">check it out</a>.)
+      </p>
+      
+      <div class="dropdown">
+        <button class="btn dropdown-toggle sr-only" role="button" id="dropdownMenu1" data-toggle="dropdown" data-target="#">
+          Dropdown
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+          <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Action</a></li>
+          <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Another action</a></li>
+          <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Something else here</a></li>
+          <li role="presentation" class="divider"></li>
+          <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li>
+        </ul>
+      </div>
+      
+      
+      <form class="form-horizontal" role="form">
+        <div class="panel-group" id="accordion1"> 
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title" class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#collapseRegionProviderLease">
+                <a>
+                  Restrict region, provider, and lease 
+                  <small>(Default: North America, any lease)</small>
+                </a>
+              </h4>
+            </div>
+            <div id="collapseRegionProviderLease" class="panel-collapse collapse">
+              <div class="panel-body">
+					      <div class="form-group">
+					        <div class="col-xs-1 text-right form-label">
+					          Provider
+					        </div>
+					        <div class="col-xs-11">
+				  		      <span ng-repeat='provider in providers'>
+				  			      <label>
+				  	  	        <input type='checkbox' ng-model='provider.checked'>
+						            {{provider.name}}
+				  		          &nbsp;&nbsp;&nbsp;
+  		  		          </label>
+						        </span>
+					        </div>
+  			        </div>
+					        
+					      <div class="form-group">
+					        <div class="col-xs-1 text-right form-label">
+					          Region
+					        </div>
+					        <div class="col-xs-11">
+							      <span ng-repeat='region in regions'>
+				  			      <label>
+						  	        <input type='checkbox' ng-model='region.checked'>
+							          {{region.name}}
+				  		          &nbsp;&nbsp;&nbsp;
+   		  		          </label>
+							      </span>
+									</div>
+					      </div> 
+					     
+					      <div class="form-group">
+					        <div class="col-xs-1 text-right form-label">
+					          Term
+					        </div>
+					        <div class="col-xs-11">
+							      <span ng-repeat='term in terms'>
+				  			      <label>
+				  			        <input type='checkbox' ng-model='term.checked'>
+					  		        {{term.label}}
+				  		          &nbsp;&nbsp;&nbsp;
+							        </label>
+							      </span>
+				  	      </div> 
+					      </div> 
+					     
+					      <div class="form-group">
+					        <div class="col-xs-1 text-right form-label text-form-label">
+					          Cost
+					        </div>
+					        <div class="col-xs-11">
+ 						        <input type="text" ng-model="minUpfront" ng-pattern="numberFormat" size=8/>
+  					         to <input type="text" ng-model="maxUpfront" ng-pattern="numberFormat" size=8/> $ up front,
+	  				        <input type="text" ng-model="minHourly" ng-pattern="numberFormat" size=8/>
+		  			         to <input type="text" ng-model="maxHourly" ng-pattern="numberFormat" size=8/> $ per hour
+				  	      </div> 
+					      </div> 
+              </div>
+            </div>
+          </div>
+        </div>
+      
+        <div class="panel-group" id="accordion2">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title" class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseServerSize">
+                <a>
+                  Restrict server size
+                  <small>(specify a range of CPU, RAM, or storage size)</small> 
+                </a>
+              </h4>
+            </div>
+            <div id="collapseServerSize" class="panel-collapse collapse">
+              <div class="panel-body">
+					      <div class="form-group">
+					        <div class="col-xs-1 text-right form-label text-form-label">
+					          System
+					        </div>
+					        <div class="col-xs-11">
+						        <input type="text" ng-model="minCores" ng-pattern="numberFormat" size=8/>
+						         to <input type="text" ng-model="maxCores" ng-pattern="numberFormat" size=8/> cores,
+						        <input type="text" ng-model="minRam" ng-pattern="numberFormat" size=8/>
+						         to <input type="text" ng-model="maxRam" ng-pattern="numberFormat" size=8/> GB RAM
+				  	      </div> 
+					      </div> 
+					     
+					      <div class="form-group">
+					        <div class="col-xs-1 text-right form-label text-form-label">
+					          Storage 
+					        </div>
+					        <div class="col-xs-11">
+						        <input type="text" ng-model="minDisk" ng-pattern="numberFormat" size=8/>
+						         to <input type="text" ng-model="maxDisk" ng-pattern="numberFormat" size=8/> GB disk,
+						        <input type="text" ng-model="minFlash" ng-pattern="numberFormat" size=8/>
+						         to <input type="text" ng-model="maxFlash" ng-pattern="numberFormat" size=8/> GB SSD
+				  	      </div> 
+					      </div> 
+              </div>
+            </div>
+          </div>
+        </div>
+	     
+        <div class="panel-group" id="accordion3">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title" class="accordion-toggle" data-toggle="collapse" data-parent="#accordion3" href="#collapseAmortization">
+                <a>
+                  Amortization period and financial assumptions 
+                  <small>(Default: 24 hours/day for 1 month)</small>
+                </a>
+              </h4>
+            </div>
+            <div id="collapseAmortization" class="panel-collapse collapse">
+              <div class="panel-body">
+					      <div class="form-group">
+					        <div class="col-xs-1 text-right form-label text-form-label">
+					          Usage 
+					        </div>
+					        <div class="col-xs-11">
+				  	        <input type="text" ng-model="hoursPerDay" ng-pattern="numberFormat" size=8/> hours per day for
+					          <input type="text" ng-model="lifetimeInMonths" ng-pattern="numberFormat" size=8/> months
+				  	      </div> 
+					      </div> 
+					      
+					      <div class="form-group">
+					        <div class="col-xs-1 text-right form-label text-form-label">
+					          Capital 
+					        </div>
+					        <div class="col-xs-11">
+					          <input type="text" ng-model="costOfFunds" ng-pattern="numberFormat" size=8/>% interest rate (for amortization purposes)
+				  	      </div>
+					      </div> 
+					      
+					      <div class="form-group">
+					        <div class="col-xs-1 text-right form-label text-form-label">
+					          Resale 
+					        </div>
+					        <div class="col-xs-11">
+					          Assume partly-used EC2 reservations resold for
+					          <input type="text" ng-model="ec2ResalePercent" ng-pattern="numberFormat" size=8/>% of pro-rata
+					          value
+				  	      </div>
+					      </div> 
+              </div>
+            </div>
+          </div>
+        </div>
+	     
+        <div class="panel-group">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+  		          Describe servers using &nbsp;
+	  	          <label><input type="radio" ng-model="display" value="absolute"/> absolute units ("8 GB") &nbsp;</label>
+			          <label><input type="radio" ng-model="display" value="relative"/> units per dollar per month
+                  ("$1.26 GB/$" -- reflects amortized cost)</label>
+              </h4>
+            </div>
+          </div>
+        </div>
+	    </form>
+    
+      <div class="table-responsive">
+	      <table class="table table-striped table-bordered table-condensed">
+  	      <thead>
+			      <tr class='columnLabels'>
+			        <th ng-repeat='column in columns' ng-class='sortHeaderClass(column.field)' ng-click='setSort(column.field)'>
+                <table width="100%"><tr>
+                  <td><span class="tooltipSpan" data-toggle="tooltip" title="{{column.tooltip}}">{{column.title}}</span></td>
+                  <td><span class="glyphicon pull-right"></span></td>
+                </tr></table>
+              </th>
+			      </tr>
+  	      </thead>
+          <tbody>
+  	      <!-- <tbody ng-bind-html-unsafe="buildTableBodyHtml()"> -->
+			      <tr ng-repeat='serverChoice in filteredServerChoices()' ng-show='serverChoice.show'>
+			        <td>{{serverChoice.provider}}</td>
+			        <td>{{serverChoice.serverType}}</td>
+			        <td class="text-right">{{formatThreeDecimalsMaybeRelative(serverChoice.cores)}}</td>
+			        <td class="text-right">{{formatMBMaybeRelative(serverChoice.ramMB)}}</td>
+			        <td class="text-right">{{formatMBMaybeRelative(serverChoice.diskMB)}}</td>
+			        <td class="text-right">{{formatMBMaybeRelative(serverChoice.flashMB)}}</td>
+			        <td class="text-right">{{formatDollars(serverChoice.amortizedCost)}}</td>
+              <td>{{serverChoice.reservationType}}</td>
+              <td class="text-right">{{formatDollars(serverChoice.upfrontCost)}}</td>
+              <td class="text-right">{{formatDollars(serverChoice.hourlyCost)}}</td>
+              <td>{{serverChoice.location}}</td>
+			      </tr>
+  	      </tbody>
+		    </table>
+      </div>
+    </div>
+    
+    
+<!-- Quick-Reference dialog -->    
+<div class="modal fade" id="quickReference" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Quick Reference</h4>
+      </div>
+      <div class="modal-body">
+        <p>
+          Using this page, you can compare costs across a large number of server offerings. Click on the
+          yellow blocks to narrow down the choices, as follows:
+        </p>
+        <ul>
+          <li>Provider -- restrict to specific hosting companies.
+          <li>Region -- restrict to a particular geographic region.
+          <li>Term -- restrict to a particular lease type: on-demand / hourly, monthly, etc.
+          <li>Cost -- restrict to servers in a particular price range. You can restrict the up-front
+              cost, hourly cost, or both. (Offerings which don't require an up-front purchase have
+              an up-front cost of 0.)
+          <li>System -- select servers with a particular range of CPU cores and/or memory. See the
+              <a href="https://blog.scalyr.com">blog post</a> for a discussion of how CPU cores are measured.
+          <li>Storage -- select servers with a particular amount of disk and/or SSD (flash) storage.
+        </ul>
+        <p>
+          Some options are used to compute the "amortized monthly cost". This is your total cost, divided
+          by the number of months you'll be using the server. Any upfront cost is spread out across the
+          usage period, according to the interest rate you specify. In the case of EC2 reserved instances,
+          if you won't be using the full reservation lifetime, then we factor in the resale value.
+        </p>
+        <ul>
+          <li>Usage -- how many hours per day you'll be running the server, and for how many months.
+          <li>Capital -- the cost-of-capital you use when making financial decisions. If you'd prefer to
+            minimize upfront costs, even if it means spending more in the long term, then specify a higher
+            value.
+          <li>Resale -- if you think Amazon may lower the price of EC2 reservations, thus making your
+            reservation worth less at resale, then reduce this figure. The default figure of 100% means
+            that a partially used reservation can be sold at its full pro-rata value. (We take Amazon's
+            10% commission into account separately, so if you specify 100%, you're expecting to sell
+            the instance for full value and collect 90% after commission.)
+        </ul>
+        <p>
+          The last option allows you to see servers described in per-dollar units. For instance, an EC2
+          m1.small on-demand server has 39.7 MB RAM per dollar per month: 1.7 GB of RAM, divided by the
+          monthly cost of $43.83, yields 39.7 MB. <b>This is particularly useful for sorting</b>: sort
+          on per-dollar units to see which servers are most cost-effective for a particular resource.
+        </p>
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="closeQuickRef">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+<!-- Presets dialog -->    
+<div class="modal" id="presets" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        <h4>Rates for one hour/day</h4>
+        <ul>
+          <li><a href='#' onclick='applyPreset({hoursPerDay: 1, display: "relative", sort: sortDescending("ramMB")})'>Cheapest RAM (most GB per $)</a>
+          <li><a href='#' onclick='applyPreset({hoursPerDay: 1, display: "relative", sort: sortDescending("diskMB")})'>Cheapest Disk (most GB per $)</a>
+          <li><a href='#' onclick='applyPreset({hoursPerDay: 1, display: "relative", sort: sortDescending("flashMB")})'>Cheapest SSD (most GB per $)</a>
+          <li><a href='#' onclick='applyPreset({hoursPerDay: 1, minRam: 16})'>Cheapest servers with at least 16GB of RAM</a>
+          <li><a href='#' onclick='applyPreset({hoursPerDay: 1, minDisk: 400})'>Cheapest servers with at least 400GB of disk</a>
+          <li><a href='#' onclick='applyPreset({hoursPerDay: 1, minFlash: 40})'>Cheapest servers with at least 40GB of SSD</a>
+        </ul>
+        <h4>Rates for three years</h4>
+        <ul>
+          <li><a href='#' onclick='applyPreset({lifetimeInMonths: 36, display: "relative", sort: sortDescending("ramMB")})'>Cheapest RAM (most GB per $)</a>
+          <li><a href='#' onclick='applyPreset({lifetimeInMonths: 36, display: "relative", sort: sortDescending("diskMB")})'>Cheapest Disk (most GB per $)</a>
+          <li><a href='#' onclick='applyPreset({lifetimeInMonths: 36, display: "relative", sort: sortDescending("flashMB")})'>Cheapest SSD (most GB per $)</a>
+          <li><a href='#' onclick='applyPreset({lifetimeInMonths: 36, minRam: 16})'>Cheapest servers with at least 16GB of RAM</a>
+          <li><a href='#' onclick='applyPreset({lifetimeInMonths: 36, minDisk: 400})'>Cheapest servers with at least 400GB of disk</a>
+          <li><a href='#' onclick='applyPreset({lifetimeInMonths: 36, minFlash: 40})'>Cheapest servers with at least 40GB of SSD</a>
+        </ul>
+        <h4>Rates for three years, used 8 hours/day</h4>
+        <ul>
+          <li><a href='#' onclick='applyPreset({hoursPerDay: 8, lifetimeInMonths: 36, display: "relative", sort: sortDescending("ramMB")})'>Cheapest RAM (most GB per $)</a>
+          <li><a href='#' onclick='applyPreset({hoursPerDay: 8, lifetimeInMonths: 36, display: "relative", sort: sortDescending("diskMB")})'>Cheapest Disk (most GB per $)</a>
+          <li><a href='#' onclick='applyPreset({hoursPerDay: 8, lifetimeInMonths: 36, display: "relative", sort: sortDescending("flashMB")})'>Cheapest SSD (most GB per $)</a>
+          <li><a href='#' onclick='applyPreset({hoursPerDay: 8, lifetimeInMonths: 36, minRam: 16})'>Cheapest servers with at least 16GB of RAM</a>
+          <li><a href='#' onclick='applyPreset({hoursPerDay: 8, lifetimeInMonths: 36, minDisk: 400})'>Cheapest servers with at least 400GB of disk</a>
+          <li><a href='#' onclick='applyPreset({hoursPerDay: 8, lifetimeInMonths: 36, minFlash: 40})'>Cheapest servers with at least 40GB of SSD</a>
+        </ul>
+        <div class='text-right'>
+          <button type="button" class="btn btn-primary" id="closePresets">Cancel</button>
+        </div>
+    </div>
+  </div>
+</div>
+
+
+  </body>
+</html>

@@ -1,0 +1,58 @@
+body {
+  padding: 0px 10px;
+}
+
+div.panel-group div.panel-default div.panel-heading {
+  background-color: rgb(255, 242, 204);
+}
+
+tr.columnLabels {
+  background-color: rgb(196, 228, 255);
+}
+
+div.form-group {
+	margin-bottom: 2px;
+}
+
+div.form-label {
+  padding-right: 0;
+}
+
+div.text-form-label {
+  /* This forces text labels to line up with input fields */
+  padding: 3px 0px;
+}
+
+label {
+	font-weight: normal;
+}
+
+th {
+	white-space: nowrap;
+}
+
+th.sorted-ascending span.glyphicon:before {
+	content: "\e094";
+}
+
+th.sorted-descending span.glyphicon:before {
+	content: "\e093";
+}
+
+th.sorted-none span.glyphicon:before {
+	content: "\e150";
+	color: #AAAAAA;
+}
+
+th.sorted-none:hover span.glyphicon:before {
+	color: #000000;
+}
+
+.tooltip-inner {
+  white-space: normal;
+}
+
+#quickReference .modal-dialog
+{
+  width: 760px;
+}
