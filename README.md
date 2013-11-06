@@ -5,10 +5,11 @@ This is the source code for Scalyr's [Cloud Cost Calculator](https://www.scalyr.
 You can read all about it in [this blog post](http://blog.scalyr.com/2013/11/05/cloud-cost-calculator/).
 
 Contributions are welcome! We're open to any sort of suggestions. Any graphic designers out there who feel like cleaning
-up the page design are welcome to give it a whack. We're especially interested in getting data for additional
-service providers, including some non-cloud hosting services. To contribute, just create a JavaScript file
-listing each offering from that provider. Look at files like linode.js for an example. Your file should contain
-a series of function calls like this:
+up the page design are welcome to give it a whack.
+
+**We're especially interested in getting data for additional service providers, including some non-cloud
+hosting services.** To contribute, just create a JavaScript file listing each offering from that provider.
+Your file should contain a series of function calls like this:
 
 		serverChoices.push({
 		  "provider": "Google",
@@ -27,8 +28,9 @@ a series of function calls like this:
 		  "networkMbps": 0.0
 		});
 
-Each call defines a single combination of server type, data center location, lease type, or any other
-parameters as appropriate to this service provider. The fields are interpreted as follows:
+Look at files like linode.js for an example. Each call defines a single combination of server type,
+data center location, lease type, or any other parameters as appropriate to this service provider.
+The fields are interpreted as follows:
 
 <table>
   <tr><th>Field</th><th>Meaning</th></tr>
