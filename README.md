@@ -2,7 +2,7 @@ Server Cost Comparison
 ---
 
 This is the source code for Scalyr's [Cloud Cost Calculator](https://www.scalyr.com/cloud/) tool.
-You can read all about it in [this blog post](http://blog.scalyr.com/2013/11/05/cloud-cost-calculator/).
+You can read all about it in [this blog post](http://blog.scalyr.com/2013/11/11/cloud-cost-calculator/).
 
 Contributions are welcome! We're open to any sort of suggestions. Any graphic designers out there who feel like cleaning
 up the page design are welcome to give it a whack.
