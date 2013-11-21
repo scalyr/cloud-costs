@@ -1,8 +1,8 @@
-#
-#Source: http://www.burst.net/cloud.php
-#Prepared: 11/20/2013
-#Contact: Email: sales@burst.net | Phone - 570-343-2200
-#
+//
+// Source: http://www.burst.net/cloud.php
+// Prepared: 11/20/2013
+// Contact: Email: sales@burst.net | Phone - 570-343-2200
+//
 
 serverChoices.push({"region":"N. America","hourlyCost":0.00,"location":"Dallas","provider":"Burstnet","ramMB":512.0,"networkMbps":1000.0,"flashMB":0.0,"cores":1.0,"serverType":"512MB","reservationType":"monthly","termMonths":1.0,"diskMB":20000.0,"term":"Month","upfrontCost":14.95});
 serverChoices.push({"region":"N. America","hourlyCost":0.01,"location":"Dallas","provider":"Burstnet","ramMB":512.0,"networkMbps":1000.0,"flashMB":0.0,"cores":1.0,"serverType":"512MB","reservationType":"monthly","termMonths":1.0,"diskMB":40000.0,"term":"Month","upfrontCost":14.95});
