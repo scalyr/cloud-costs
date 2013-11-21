@@ -1,8 +1,12 @@
+// Pricing data for Brightbox
+// 
+// Supplied 11/19/2013 by https://github.com/johnl (of Brightbox); see http://brightbox.com/pricing/
+
 serverChoices.push({
-    "provider": "Brightbox Cloud",
+    "provider": "Brightbox",
     "region": "Europe",
     "location": "Manchester, UK",
-    "serverType": "Standard Nano",
+    "serverType": "Std Nano",
     "reservationType": "hourly",
     "term": "Hour",
     "termMonths": 0.0,
@@ -15,10 +19,10 @@ serverChoices.push({
     "networkMbps": 0.0
 });
 serverChoices.push({
-    "provider": "Brightbox Cloud",
+    "provider": "Brightbox",
     "region": "Europe",
     "location": "Manchester, UK",
-    "serverType": "Standard Mini",
+    "serverType": "Std Mini",
     "reservationType": "hourly",
     "term": "Hour",
     "termMonths": 0.0,
@@ -31,10 +35,10 @@ serverChoices.push({
     "networkMbps": 0.0
 });
 serverChoices.push({
-    "provider": "Brightbox Cloud",
+    "provider": "Brightbox",
     "region": "Europe",
     "location": "Manchester, UK",
-    "serverType": "Standard Small",
+    "serverType": "Std Small",
     "reservationType": "hourly",
     "term": "Hour",
     "termMonths": 0.0,
@@ -47,10 +51,10 @@ serverChoices.push({
     "networkMbps": 0.0
 });
 serverChoices.push({
-    "provider": "Brightbox Cloud",
+    "provider": "Brightbox",
     "region": "Europe",
     "location": "Manchester, UK",
-    "serverType": "Standard Medium",
+    "serverType": "Std Medium",
     "reservationType": "hourly",
     "term": "Hour",
     "termMonths": 0.0,
@@ -63,10 +67,10 @@ serverChoices.push({
     "networkMbps": 0.0
 });
 serverChoices.push({
-    "provider": "Brightbox Cloud",
+    "provider": "Brightbox",
     "region": "Europe",
     "location": "Manchester, UK",
-    "serverType": "Standard Large",
+    "serverType": "Std Large",
     "reservationType": "hourly",
     "term": "Hour",
     "termMonths": 0.0,
@@ -79,10 +83,10 @@ serverChoices.push({
     "networkMbps": 0.0
 });
 serverChoices.push({
-    "provider": "Brightbox Cloud",
+    "provider": "Brightbox",
     "region": "Europe",
     "location": "Manchester, UK",
-    "serverType": "Standard XL",
+    "serverType": "Std XL",
     "reservationType": "hourly",
     "term": "Hour",
     "termMonths": 0.0,
@@ -95,10 +99,10 @@ serverChoices.push({
     "networkMbps": 0.0
 });
 serverChoices.push({
-    "provider": "Brightbox Cloud",
+    "provider": "Brightbox",
     "region": "Europe",
     "location": "Manchester, UK",
-    "serverType": "Standard XL",
+    "serverType": "Std XXL",
     "reservationType": "hourly",
     "term": "Hour",
     "termMonths": 0.0,
@@ -111,7 +115,7 @@ serverChoices.push({
     "networkMbps": 0.0
 });
 serverChoices.push({
-    "provider": "Brightbox Cloud",
+    "provider": "Brightbox",
     "region": "Europe",
     "location": "Manchester, UK",
     "serverType": "High IO Nano",
@@ -127,7 +131,7 @@ serverChoices.push({
     "networkMbps": 0.0
 });
 serverChoices.push({
-    "provider": "Brightbox Cloud",
+    "provider": "Brightbox",
     "region": "Europe",
     "location": "Manchester, UK",
     "serverType": "High IO Mini",
@@ -143,7 +147,7 @@ serverChoices.push({
     "networkMbps": 0.0
 });
 serverChoices.push({
-    "provider": "Brightbox Cloud",
+    "provider": "Brightbox",
     "region": "Europe",
     "location": "Manchester, UK",
     "serverType": "High IO Small",
@@ -159,7 +163,7 @@ serverChoices.push({
     "networkMbps": 0.0
 });
 serverChoices.push({
-    "provider": "Brightbox Cloud",
+    "provider": "Brightbox",
     "region": "Europe",
     "location": "Manchester, UK",
     "serverType": "High IO Medium",
@@ -175,7 +179,7 @@ serverChoices.push({
     "networkMbps": 0.0
 });
 serverChoices.push({
-    "provider": "Brightbox Cloud",
+    "provider": "Brightbox",
     "region": "Europe",
     "location": "Manchester, UK",
     "serverType": "High IO Large",
@@ -191,7 +195,7 @@ serverChoices.push({
     "networkMbps": 0.0
 });
 serverChoices.push({
-    "provider": "Brightbox Cloud",
+    "provider": "Brightbox",
     "region": "Europe",
     "location": "Manchester, UK",
     "serverType": "High IO XL",
@@ -207,10 +211,10 @@ serverChoices.push({
     "networkMbps": 0.0
 });
 serverChoices.push({
-    "provider": "Brightbox Cloud",
+    "provider": "Brightbox",
     "region": "Europe",
     "location": "Manchester, UK",
-    "serverType": "High IO XL",
+    "serverType": "High IO XXL",
     "reservationType": "hourly",
     "term": "Hour",
     "termMonths": 0.0,

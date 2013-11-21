@@ -466,6 +466,9 @@ $(document).ready(function() {
   window.setTimeout(function(){
     $('.tooltipSpan').tooltip();
     $('.dropdown-toggle').dropdown();
+    
+    // Delay calling this, because it's slow to execute.
+    $('table').stickyTableHeaders();
   }, 200);
   
   $('#quickrefButton').click(function() {
