@@ -11,24 +11,46 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular.min.js"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <script src="//cdn.optimizely.com/js/538640475.js"></script>
     
-    <script src="serverCosts.js"></script>
-    <script src="ec2.js"></script>
-    <script src="digitalOcean.js"></script>
-    <script src="linode.js"></script>
-    <script src="rackspace.js"></script>
-    <script src="google.js"></script>
-    <script src="brightbox.js"></script>
-    <script src="burstnet.js"></script>
-    <script src="atlantic-net.js"></script>
-    <script src="azure.js"></script>
-    <script src="other.js"></script>
-    <script src="exoscale.js"></script>
-    <script src="jquery.stickytableheaders.min.js"></script>
+    <script language="javascript" src="serverCosts.js"></script>
+    <script language="javascript" src="ec2.js"></script>
+    <script language="javascript" src="digitalOcean.js"></script>
+    <script language="javascript" src="linode.js"></script>
+    <script language="javascript" src="rackspace.js"></script>
+    <script language="javascript" src="google.js"></script>
+    <script language="javascript" src="brightbox.js"></script>
+    <script language="javascript" src="burstnet.js"></script>
+    <script language="javascript" src="atlantic-net.js"></script>
+    <script language="javascript" src="azure.js"></script>
+    <script language="javascript" src="other.js"></script>
+    <script language="javascript" src="exoscale.js"></script>
+    <script language="javascript" src="lunacloud.js"></script>
+    <script language="javascript" src="exoscale.js"></script>
+    <script language="javascript" src="jquery.stickytableheaders.min.js"></script>
     
     <title>Cloud Cost Calculator</title>
   </head>
   <body>
+  
+  
+  <!-- Google Analytics tracking code -->
+  <script>
+    dataLayer = [{
+      'visitorType': 'guest' // NOTE: should invoke UserManagement.getVisitorTypeForGA, but want to keep this page static
+    }];
+  </script>
+  <!-- Google Tag Manager -->
+    <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-P4FZJF"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-P4FZJF');</script>
+  <!-- End Google Tag Manager -->
+  
+  
     <div ng-controller="ServerCostsController">
       <div class="row">
         <div class="col-sm-6">
@@ -42,7 +64,7 @@
         </div>
       </div>
       <p>
-        Welcome! Use this page to compare server costs. Unlike most cheat sheets, here you can compare
+        Welcome! Use this page to compare cloud server costs. Unlike most cheat sheets, here you can compare
         across providers, evaluate on-demand vs. reserved / leased options, and sort by cost-effectiveness
         metrics such as "$ per GB of RAM". Feedback: <a href='mailto:contact@scalyr.com'>contact@scalyr.com</a>.
       </p>
@@ -52,12 +74,10 @@
         <a href="#" id="quickrefButton">quick reference</a>, or explore some
         <a href="#" id="presetsButton">presets</a>.
       </p>
-      <p>
-        (A little weekend project from the folks at Scalyr. During the week, we work on server monitoring and
-        log analysis. We've built a highly efficient universal storage engine for server logs and metrics,
-        enabling you to manage all your server data in one place with amazing performance...
-        <a href="/">check it out</a>.)
-      </p>
+      <div style="margin-top:15px;margin-bottom:15px;padding:10px;border-left:5px solid #f54d70;background:#f6ccda;">
+	      Outages cause millions in lost revenue every year. Use Scalyr to monitor your
+        server logs and catch issues before they cost you. <a href="https://www.scalyr.com">Learn more &rarr;</a>
+      </div>
       
       <div class="dropdown">
         <button class="btn dropdown-toggle sr-only" role="button" id="dropdownMenu1" data-toggle="dropdown" data-target="#">

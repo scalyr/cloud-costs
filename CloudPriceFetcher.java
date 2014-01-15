@@ -514,31 +514,31 @@ public class CloudPriceFetcher {
       tuple.ramMB = 7 * 1024;
       tuple.diskMB = 1680 * 1024;
       tuple.flashMB = 0;
-    } else if (tag.equals("computeCurrentGen/c3.large")) {
+    } else if (tag.equals("c3/c3.large") || tag.equals("computeCurrentGen/c3.large")) {
       tuple.serverType = "c3.large";
       tuple.cores = 7;
       tuple.ramMB = 3.75 * 1024;
       tuple.diskMB = 0;
       tuple.flashMB = 2 * 16 * 1024;
-    } else if (tag.equals("computeCurrentGen/c3.xlarge")) {
+    } else if (tag.equals("c3/c3.xlarge") || tag.equals("computeCurrentGen/c3.xlarge")) {
       tuple.serverType = "c3.xlarge";
       tuple.cores = 14;
       tuple.ramMB = 7 * 1024;
       tuple.diskMB = 0;
       tuple.flashMB = 2 * 40 * 1024;
-    } else if (tag.equals("computeCurrentGen/c3.2xlarge")) {
+    } else if (tag.equals("c3/c3.2xlarge") || tag.equals("computeCurrentGen/c3.2xlarge")) {
       tuple.serverType = "c3.2xlarge";
       tuple.cores = 28;
       tuple.ramMB = 15 * 1024;
       tuple.diskMB = 0;
       tuple.flashMB = 2 * 80 * 1024;
-    } else if (tag.equals("computeCurrentGen/c3.4xlarge")) {
+    } else if (tag.equals("c3/c3.4xlarge") || tag.equals("computeCurrentGen/c3.4xlarge")) {
       tuple.serverType = "c3.4xlarge";
       tuple.cores = 55;
       tuple.ramMB = 30 * 1024;
       tuple.diskMB = 0;
       tuple.flashMB = 2 * 160 * 1024;
-    } else if (tag.equals("computeCurrentGen/c3.8xlarge")) {
+    } else if (tag.equals("c3/c3.8xlarge") || tag.equals("computeCurrentGen/c3.8xlarge")) {
       tuple.serverType = "c3.8xlarge";
       tuple.cores = 108;
       tuple.ramMB = 60 * 1024;
@@ -571,13 +571,13 @@ public class CloudPriceFetcher {
       tuple.ramMB = 15 * 1024;
       tuple.diskMB = 0;
       tuple.flashMB = 60 * 1000 / 1.024 / 1.024;
-    } else if (tag.equals("hiIo/cg1.4xlarge")) {
+    } else if (tag.equals("gpuPreviousGen/cg1.4xlarge") || tag.equals("hiIo/cg1.4xlarge")) {
       tuple.serverType = "cg1.4xlarge";
       tuple.cores = 33.5;
       tuple.ramMB = 22.5 * 1024;
       tuple.diskMB = 1680 * 1024;
       tuple.flashMB = 0;
-    } else if (tag.equals("storageCurrentGen/hi1.4xlarge") || tag.equals("hiIo/hi1.4xlarge") || tag.equals("hiIo/xxxxl")) {
+    } else if (tag.equals("storagePreviousGen/hi1.4xlarge") || tag.equals("storageCurrentGen/hi1.4xlarge") || tag.equals("hiIo/hi1.4xlarge") || tag.equals("hiIo/xxxxl")) {
       tuple.serverType = "hi1.4xlarge";
       tuple.cores = 35;
       tuple.ramMB = 60.5 * 1024;
@@ -589,6 +589,30 @@ public class CloudPriceFetcher {
       tuple.ramMB = 117 * 1024;
       tuple.diskMB = 49152 * 1024;
       tuple.flashMB = 0;
+    } else if (tag.equals("storageCurrentGen/i2.xlarge")) {
+      tuple.serverType = "i2.xlarge";
+      tuple.cores = 14;
+      tuple.ramMB = 30.5 * 1024;
+      tuple.diskMB = 0;
+      tuple.flashMB = 800 * 1024;
+    } else if (tag.equals("storageCurrentGen/i2.2xlarge")) {
+      tuple.serverType = "i2.2xlarge";
+      tuple.cores = 27;
+      tuple.ramMB = 61 * 1024;
+      tuple.diskMB = 0;
+      tuple.flashMB = 1600 * 1024;
+    } else if (tag.equals("storageCurrentGen/i2.4xlarge")) {
+      tuple.serverType = "i2.4xlarge";
+      tuple.cores = 53;
+      tuple.ramMB = 122 * 1024;
+      tuple.diskMB = 0;
+      tuple.flashMB = 3200 * 1024;
+    } else if (tag.equals("storageCurrentGen/i2.8xlarge")) {
+      tuple.serverType = "i2.8xlarge";
+      tuple.cores = 104;
+      tuple.ramMB = 244 * 1024;
+      tuple.diskMB = 0;
+      tuple.flashMB = 6400 * 1024;
     } else {
       throw new RuntimeException("Unknown Amazon instance type (" + instanceType + ") / size (" + instanceSize + ")");
     }
@@ -953,7 +977,7 @@ public class CloudPriceFetcher {
    * Add a Tuple to optionsArray for each Google Compute Engine offering.
    */
   private void accumulateGoogleOptions(List<Tuple> optionsArray) {
-    // Source: https://cloud.google.com/pricing/, Sept. 20, 2013
+    // Source: https://developers.google.com/compute/pricing#machinetype, Jan. 15, 2014
     
     Tuple baseTuple = new Tuple();
     baseTuple.provider = Provider.Google;
@@ -966,53 +990,39 @@ public class CloudPriceFetcher {
     
     baseTuple.region = Region.NorthAmerica;
     baseTuple.location = "US Central";
-    optionsArray.add(createGoogleTuple(baseTuple, "n1-standard-1-d", 2.75, 3.75,  420, 0.132));
-    optionsArray.add(createGoogleTuple(baseTuple, "n1-standard-2-d", 5.50, 7.50,  870, 0.265));
-    optionsArray.add(createGoogleTuple(baseTuple, "n1-standard-4-d", 11.0, 15.0, 1770, 0.530));
-    optionsArray.add(createGoogleTuple(baseTuple, "n1-standard-8-d", 22.0, 30.0, 3540, 1.060));
-    optionsArray.add(createGoogleTuple(baseTuple, "n1-standard-1",   2.75, 3.75,    0, 0.115));
-    optionsArray.add(createGoogleTuple(baseTuple, "n1-standard-2",   5.50, 7.50,    0, 0.230));
-    optionsArray.add(createGoogleTuple(baseTuple, "n1-standard-4",   11.0, 15.0,    0, 0.461));
-    optionsArray.add(createGoogleTuple(baseTuple, "n1-standard-8",   22.0, 30.0,    0, 0.922));
+    optionsArray.add(createGoogleTuple(baseTuple, "n1-standard-1",   2.75, 3.75,    0, 0.104));
+    optionsArray.add(createGoogleTuple(baseTuple, "n1-standard-2",   5.50, 7.50,    0, 0.207));
+    optionsArray.add(createGoogleTuple(baseTuple, "n1-standard-4",   11.0, 15.0,    0, 0.415));
+    optionsArray.add(createGoogleTuple(baseTuple, "n1-standard-8",   22.0, 30.0,    0, 0.829));
+    optionsArray.add(createGoogleTuple(baseTuple, "n1-standard-16",  44.0, 60.0,    0, 1.659));
     optionsArray.add(createGoogleTuple(baseTuple, "f1-micro",         0.5, 0.60,    0, 0.019));
     optionsArray.add(createGoogleTuple(baseTuple, "g1-small",        1.38, 1.70,    0, 0.054));
-    optionsArray.add(createGoogleTuple(baseTuple, "n1-highmem-2-d",  5.50, 13.0,  870, 0.305));
-    optionsArray.add(createGoogleTuple(baseTuple, "n1-highmem-4-d",  11.0, 26.0, 1770, 0.611));
-    optionsArray.add(createGoogleTuple(baseTuple, "n1-highmem-8-d",  22.0, 52.0, 3540, 1.221));
     optionsArray.add(createGoogleTuple(baseTuple, "n1-highmem-2",    5.50, 13.0,    0, 0.244));
     optionsArray.add(createGoogleTuple(baseTuple, "n1-highmem-4",    11.0, 26.0,    0, 0.488));
     optionsArray.add(createGoogleTuple(baseTuple, "n1-highmem-8",    22.0, 52.0,    0, 0.975));
-    optionsArray.add(createGoogleTuple(baseTuple, "n1-highcpu-2-d",  5.50, 1.80,  870, 0.163));
-    optionsArray.add(createGoogleTuple(baseTuple, "n1-highcpu-4-d",  11.0, 3.60, 1770, 0.326));
-    optionsArray.add(createGoogleTuple(baseTuple, "n1-highcpu-8-d",  22.0, 7.20, 3540, 0.653));
+    optionsArray.add(createGoogleTuple(baseTuple, "n1-highmem-16",   44.0, 104.0,   0, 1.951));
     optionsArray.add(createGoogleTuple(baseTuple, "n1-highcpu-2",    5.50, 1.80,    0, 0.131));
     optionsArray.add(createGoogleTuple(baseTuple, "n1-highcpu-4",    11.0, 3.60,    0, 0.261));
     optionsArray.add(createGoogleTuple(baseTuple, "n1-highcpu-8",    22.0, 7.20,    0, 0.522));
+    optionsArray.add(createGoogleTuple(baseTuple, "n1-highcpu-16",   44.0, 14.40,   0, 1.044));
     
     baseTuple.region = Region.Europe;
     baseTuple.location = "Europe West";
-    optionsArray.add(createGoogleTuple(baseTuple, "n1-standard-1-d", 2.75, 3.75,  420, 0.145));
-    optionsArray.add(createGoogleTuple(baseTuple, "n1-standard-2-d", 5.50, 7.50,  870, 0.290));
-    optionsArray.add(createGoogleTuple(baseTuple, "n1-standard-4-d", 11.0, 15.0, 1770, 0.580));
-    optionsArray.add(createGoogleTuple(baseTuple, "n1-standard-8-d", 22.0, 30.0, 3540, 1.160));
-    optionsArray.add(createGoogleTuple(baseTuple, "n1-standard-1",   2.75, 3.75,    0, 0.127));
-    optionsArray.add(createGoogleTuple(baseTuple, "n1-standard-2",   5.50, 7.50,    0, 0.253));
-    optionsArray.add(createGoogleTuple(baseTuple, "n1-standard-4",   11.0, 15.0,    0, 0.507));
-    optionsArray.add(createGoogleTuple(baseTuple, "n1-standard-8",   22.0, 30.0,    0, 1.014));
+    optionsArray.add(createGoogleTuple(baseTuple, "n1-standard-1",   2.75, 3.75,    0, 0.114));
+    optionsArray.add(createGoogleTuple(baseTuple, "n1-standard-2",   5.50, 7.50,    0, 0.228));
+    optionsArray.add(createGoogleTuple(baseTuple, "n1-standard-4",   11.0, 15.0,    0, 0.456));
+    optionsArray.add(createGoogleTuple(baseTuple, "n1-standard-8",   22.0, 30.0,    0, 0.912));
+    optionsArray.add(createGoogleTuple(baseTuple, "n1-standard-16",  44.0, 60.0,    0, 1.825));
     optionsArray.add(createGoogleTuple(baseTuple, "f1-micro",         0.5, 0.60,    0, 0.021));
     optionsArray.add(createGoogleTuple(baseTuple, "g1-small",        1.38, 1.70,    0, 0.059));
-    optionsArray.add(createGoogleTuple(baseTuple, "n1-highmem-2-d",  5.50, 13.0,  870, 0.344));
-    optionsArray.add(createGoogleTuple(baseTuple, "n1-highmem-4-d",  11.0, 26.0, 1770, 0.687));
-    optionsArray.add(createGoogleTuple(baseTuple, "n1-highmem-8-d",  22.0, 52.0, 3540, 1.375));
     optionsArray.add(createGoogleTuple(baseTuple, "n1-highmem-2",    5.50, 13.0,    0, 0.275));
     optionsArray.add(createGoogleTuple(baseTuple, "n1-highmem-4",    11.0, 26.0,    0, 0.549));
     optionsArray.add(createGoogleTuple(baseTuple, "n1-highmem-8",    22.0, 52.0,    0, 1.098));
-    optionsArray.add(createGoogleTuple(baseTuple, "n1-highcpu-2-d",  5.50, 1.80,  870, 0.184));
-    optionsArray.add(createGoogleTuple(baseTuple, "n1-highcpu-4-d",  11.0, 3.60, 1770, 0.369));
-    optionsArray.add(createGoogleTuple(baseTuple, "n1-highcpu-8-d",  22.0, 7.20, 3540, 0.737));
+    optionsArray.add(createGoogleTuple(baseTuple, "n1-highmem-16",   44.0, 104.0,   0, 2.196));
     optionsArray.add(createGoogleTuple(baseTuple, "n1-highcpu-2",    5.50, 1.80,    0, 0.146));
     optionsArray.add(createGoogleTuple(baseTuple, "n1-highcpu-4",    11.0, 3.60,    0, 0.292));
     optionsArray.add(createGoogleTuple(baseTuple, "n1-highcpu-8",    22.0, 7.20,    0, 0.584));
+    optionsArray.add(createGoogleTuple(baseTuple, "n1-highcpu-16",   44.0, 14.40,   0, 1.167));
   }
   
   private Tuple createGoogleTuple(Tuple baseTuple, String configuration, double gceus, double ramGB, double diskGB, double dollarsPerHour) {

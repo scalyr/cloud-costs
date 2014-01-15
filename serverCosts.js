@@ -36,7 +36,7 @@ var ServerCostsController = function ServerCostsController($scope, $filter) {
   $scope.hoursPerDay = 24;
   $scope.lifetimeInMonths = 1;
   $scope.costOfFunds = 10;
-  $scope.ec2ResalePercent = 100;
+  $scope.ec2ResalePercent = 80;
   $scope.display = "absolute";
   $scope.sort = [{field: "amortizedCost", ascending: true}, {field: "upfrontCost", ascending: true}];
 	  
@@ -126,7 +126,7 @@ function updateAmortizedCost($scope, choice) {
   	  if (leftoverMonths < choice.termMonths) {
       	  var proratedValue = choice.upfrontCost * leftoverMonths / choice.termMonths;
       	  var resalePrice = proratedValue * ec2ResalePercent / 100;
-      	  totalCost -= presentValue(resalePrice * 0.9, 1, lifetimeInMonths, costOfFunds); // multiply by 0.9 to allow for Amazon's 10% resale fee
+      	  totalCost -= presentValue(resalePrice * 0.88, 1, lifetimeInMonths, costOfFunds); // multiply by 0.88 to allow for Amazon's 12% resale fee
   	  }
     }
   }
